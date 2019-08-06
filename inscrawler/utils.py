@@ -9,7 +9,7 @@ def instagram_int(string):
     return int(string.replace(",", ""))
 
 
-def retry(attempt=10, wait=0.3):
+def retry(attempt=2, wait=0.3):
     def wrap(func):
         @wraps(func)
         def wrapped_f(*args, **kwargs):

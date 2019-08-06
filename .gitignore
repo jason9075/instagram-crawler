@@ -1,5 +1,19 @@
-*.log
+# OS generated files #
+######################
 .DS_Store
+ehthumbs.db
+Icon
+Thumbs.db
+.tmtags
+.idea
+tags
+vendor.tags
+tmtagsHistory
+*.sublime-project
+*.sublime-workspace
+.bundle
+
+*.log
 .vscode/
 
 test.py
@@ -24,3 +38,6 @@ node_modules/
 secret.py
 inscrawler/bin/*
 !inscrawler/bin/.keep
+
+output/*
+!output/.keep

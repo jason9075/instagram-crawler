@@ -78,12 +78,12 @@ if __name__ == "__main__":
 
     if args.mode in ["posts", "posts_full"]:
         arg_required("username")
-        output(
-            get_posts_by_user(
-                args.username, args.number, args.mode == "posts_full", args.debug
-            ),
-            args.output,
-        )
+        data = get_posts_by_user(args.username, args.number, args.mode == "posts_full", args.debug)
+        if data is not None:
+            output(
+                data,
+                args.output,
+            )
     elif args.mode == "profile":
         arg_required("username")
         output(get_profile(args.username), args.output)

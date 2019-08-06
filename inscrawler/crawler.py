@@ -99,9 +99,14 @@ class InsCrawler(Logging):
         desc = browser.find_one(".-vDIg span")
         photo = browser.find_one("._6q-tv")
         statistics = [ele.text for ele in browser.find(".g47SY")]
+        if len(statistics) == 0:
+            return False, None
         post_num, follower_num, following_num = statistics
-        return {
-            "name": name.text,
+
+        if photo is None:
+            return False, None
+        return True, {
+            "name": name.text if name else username,
             "desc": desc.text if desc else None,
             "photo_url": photo.get_attribute("src"),
             "post_num": post_num,
@@ -131,16 +136,23 @@ class InsCrawler(Logging):
         }
 
     def get_user_posts(self, username, number=None, detail=False):
-        user_profile = self.get_user_profile(username)
+        success, user_profile = self.get_user_profile(username)
+        if not success:
+            return None
+        post_num = instagram_int(user_profile["post_num"])
         if not number:
-            number = instagram_int(user_profile["post_num"])
+            number = post_num
+        else:
+            number = min(number, post_num)
 
         self._dismiss_login_prompt()
 
         if detail:
-            return self._get_posts_full(number)
+            posts = self._get_posts_full(number)
         else:
-            return self._get_posts(number)
+            posts = self._get_posts(number)
+        user_profile['posts'] = posts
+        return user_profile
 
     def get_latest_posts_by_tag(self, tag, num):
         url = "%s/explore/tags/%s/" % (InsCrawler.URL, tag)
