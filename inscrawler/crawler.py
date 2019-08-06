@@ -151,6 +151,7 @@ class InsCrawler(Logging):
             posts = self._get_posts_full(number)
         else:
             posts = self._get_posts(number)
+        user_profile['username'] = username
         user_profile['posts'] = posts
         return user_profile
 
