@@ -281,6 +281,8 @@ class InsCrawler(Logging):
                 key = ele.get_attribute("href")
                 if key not in key_set:
                     ele_img = browser.find_one(".KL4Bh img", ele)
+                    if ele_img is None:
+                        continue
                     caption = ele_img.get_attribute("alt")
                     img_url = ele_img.get_attribute("src")
                     key_set.add(key)
